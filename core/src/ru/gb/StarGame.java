@@ -12,6 +12,7 @@ public class StarGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	TextureRegion region;
+	Texture img_backgraund;
 
 	int x, y;
 	
@@ -19,7 +20,10 @@ public class StarGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		img_backgraund = new Texture( "backgraund.jpg");
 		region = new TextureRegion(img, 30, 40, 100, 150);
+
+
 	}
 
 	@Override
@@ -27,6 +31,7 @@ public class StarGame extends ApplicationAdapter {
 		x+=1; y+=1;
 		ScreenUtils.clear(Color.BROWN);
 		batch.begin();
+		batch.draw(img_backgraund, 0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 		batch.draw(img, x, y);
 		batch.setColor(0.45f, 0.21f, 0.67f, 0.9f);
 		batch.draw(img, 120, 300, 100, 100);
