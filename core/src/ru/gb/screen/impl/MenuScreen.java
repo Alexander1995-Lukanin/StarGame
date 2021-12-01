@@ -1,68 +1,107 @@
 package ru.gb.screen.impl;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.math.Rect;
 import ru.gb.screen.BaseScreen;
 import ru.gb.sprite.impl.Background;
-import ru.gb.sprite.impl.Spaceship;
+import ru.gb.sprite.impl.ButtonExit;
+import ru.gb.sprite.impl.ButtonPlay;
+import ru.gb.sprite.impl.Star;
 
 public class MenuScreen extends BaseScreen {
-    Texture imgSpaceShip;
-    Texture imgBackgraund;
-    private  Vector2 pos;
+
+    private static final int STAR_COUNT = 256;
+
+    private final Game game;
+
+    private Texture bg;
     private Background background;
-    private Spaceship spaceship;
+
+    private TextureAtlas atlas;
+    private Star[] stars;
+    private ButtonExit buttonExit;
+    private ButtonPlay buttonPlay;
+
+    public MenuScreen(Game game) {
+        this.game = game;
+    }
+
     @Override
     public void show() {
         super.show();
-        imgBackgraund = new Texture( "backgraund.jpg");
-        imgSpaceShip= new Texture( "SpaceShip.png");
-        background = new Background(imgBackgraund);
-        spaceship=new Spaceship(imgSpaceShip);
+        bg = new Texture("textures/backgraund.png");
+        background = new Background(bg);
 
+        atlas = new TextureAtlas("textures/menuAtlas.pack");
 
+        stars = new Star[STAR_COUNT];
+        for (int i = 0; i < stars.length; i++) {
+            stars[i] = new Star(atlas);
+        }
+        buttonExit = new ButtonExit(atlas);
+        buttonPlay = new ButtonPlay(atlas, game);
     }
 
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
-        spaceship.resize(worldBounds);
+        for (Star star : stars) {
+            star.resize(worldBounds);
+        }
+        buttonExit.resize(worldBounds);
+        buttonPlay.resize(worldBounds);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        drow();
-
-
+        draw();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        imgSpaceShip.dispose();
-        imgBackgraund.dispose();
+        bg.dispose();
+        atlas.dispose();
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        spaceship.touchDown(touch,pointer,button);
+        buttonExit.touchDown(touch, pointer, button);
+        buttonPlay.touchDown(touch, pointer, button);
         return false;
     }
-    private void update( float delta) {
-     spaceship.update(delta);
+
+    @Override
+    public boolean touchUp(Vector2 touch, int pointer, int button) {
+        buttonExit.touchUp(touch, pointer, button);
+        buttonPlay.touchUp(touch, pointer, button);
+        return false;
     }
-    private void drow (){
+
+    private void update(float delta) {
+        for (Star star : stars) {
+            star.update(delta);
+        }
+    }
+
+    private void draw() {
         batch.begin();
+//        batch.setColor(1f, 1f, 1f, 1f);
         background.draw(batch);
-        spaceship.draw(batch);
+        for (Star star : stars) {
+//            batch.setColor(Color.YELLOW);
+            star.draw(batch);
+//            batch.setColor(Color.CLEAR);
+        }
+        buttonExit.draw(batch);
+        buttonPlay.draw(batch);
         batch.end();
-
     }
-
 }
