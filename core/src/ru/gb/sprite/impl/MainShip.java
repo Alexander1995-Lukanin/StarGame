@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.math.Rect;
+import ru.gb.pool.impl.BulletPool;
 import ru.gb.sprite.Sprite;
 
 public class MainShip extends Sprite {
@@ -19,11 +20,21 @@ public class MainShip extends Sprite {
     private boolean pressedRight;
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
+    private final BulletPool bulletPool;
+    private final TextureRegion bulletRegion;
+    private final Vector2 bulletV;
+    private final float bulletHeight;
+    private final int damage;
 
-    public MainShip(TextureAtlas atlas) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.v = new Vector2();
         this.v0 = new Vector2(0.5f, 0f);
+        this.bulletPool=bulletPool;
+        this.bulletRegion=atlas.findRegion("bulletMainShip");
+        this.bulletV=new Vector2(0,0.5f);
+        this.bulletHeight=0.01f;
+        this.damage=1;
     }
 
     @Override
@@ -64,8 +75,6 @@ public class MainShip extends Sprite {
         }
         return false;
     }
-
-
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
@@ -129,6 +138,9 @@ public class MainShip extends Sprite {
                     stop();
                 }
                 break;
+            case  Input.Keys.SPACE:
+                shoot();
+                break;
         }
         return false;
     }
@@ -140,6 +152,10 @@ public class MainShip extends Sprite {
     }
     private void stop(){
         v.setZero();
+    }
+    private void shoot(){
+        Bullet bullet = bulletPool.obtain();
+        bullet.set(this,bulletRegion,pos,bulletV,bulletHeight,worldBounds,damage);
     }
 
 }

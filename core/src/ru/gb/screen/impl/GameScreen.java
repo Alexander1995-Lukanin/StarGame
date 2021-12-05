@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.math.Rect;
+import ru.gb.pool.impl.BulletPool;
 import ru.gb.screen.BaseScreen;
 import ru.gb.sprite.impl.Background;
 import ru.gb.sprite.impl.MainShip;
@@ -14,6 +15,7 @@ public class GameScreen extends BaseScreen {
     private static final int STAR_COUNT = 12;
     private Texture bg;
     private Background background;
+    private BulletPool bulletPool;
     private TextureAtlas atlas;
     private Star[] stars;
     private MainShip mainShip;
@@ -25,17 +27,20 @@ public class GameScreen extends BaseScreen {
         background = new Background(bg);
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
 
+        bulletPool = new BulletPool();
+
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
-        mainShip = new MainShip(atlas);
+        mainShip = new MainShip(atlas, bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroyed();
         draw();
     }
 
@@ -54,18 +59,19 @@ public class GameScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
+        bulletPool.dispose();
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        mainShip.touchDown(touch,pointer,button);
-        return  false;
+        mainShip.touchDown(touch, pointer, button);
+        return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        mainShip.touchUp(touch,pointer,button);
-        return  false;
+        mainShip.touchUp(touch, pointer, button);
+        return false;
     }
 
     @Override
@@ -85,7 +91,11 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         mainShip.update(delta);
+        bulletPool.updateActiveSprites(delta);
+    }
 
+    private void freeAllDestroyed() {
+        bulletPool.freeAllDestroyed();
     }
 
     private void draw() {
@@ -95,6 +105,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
     }
 }
