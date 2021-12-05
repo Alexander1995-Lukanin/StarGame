@@ -8,8 +8,8 @@ import ru.gb.sprite.BaseButton;
 
 public class ButtonExit extends BaseButton {
 
-    private static final float HEIGHT = 0.08f;
-    private static final float MARGIN = 0.08f;
+    private static final float HEIGHT = 0.1f;
+    private static final float MARGIN = 0.03f;
 
     public ButtonExit(TextureAtlas atlas) {
         super(atlas.findRegion("Exit Button"));

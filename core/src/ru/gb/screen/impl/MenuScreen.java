@@ -46,6 +46,7 @@ public class MenuScreen extends BaseScreen {
         buttonPlay = new ButtonPlay(atlas, game);
     }
 
+
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
@@ -93,12 +94,9 @@ public class MenuScreen extends BaseScreen {
 
     private void draw() {
         batch.begin();
-//        batch.setColor(1f, 1f, 1f, 1f);
         background.draw(batch);
         for (Star star : stars) {
-//            batch.setColor(Color.YELLOW);
             star.draw(batch);
-//            batch.setColor(Color.CLEAR);
         }
         buttonExit.draw(batch);
         buttonPlay.draw(batch);
