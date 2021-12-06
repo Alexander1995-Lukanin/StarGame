@@ -17,6 +17,7 @@ public class MainShip extends Sprite {
     private static final float RELOUD_INTERVAL = 0.3f;
     private final Vector2 v;
     private final Vector2 v0;
+    private final int hp;
     private Rect worldBounds;
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -42,6 +43,7 @@ public class MainShip extends Sprite {
         this.bulletV=new Vector2(0,0.5f);
         this.bulletHeight=0.01f;
         this.damage=1;
+        this.hp = 100; 
 
         this.reloadInterval =  RELOUD_INTERVAL;
     }
