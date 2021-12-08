@@ -26,6 +26,7 @@ public class MenuScreen extends BaseScreen {
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
 
+
     public MenuScreen(Game game) {
         this.game = game;
     }
@@ -70,6 +71,7 @@ public class MenuScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
+
     }
 
     @Override
