@@ -8,9 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.math.Rect;
 import ru.gb.pool.impl.BulletPool;
+import ru.gb.sprite.Ship;
 import ru.gb.sprite.Sprite;
 
-public class MainShip extends Sprite {
+public class MainShip extends Ship {
     private static final float HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.05f;
     private static final int INVALID_POINTER = -1;
@@ -71,6 +72,13 @@ public class MainShip extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
+    }
+    public boolean isBulletCollision(Bullet bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() < pos.y
+                || bullet.getTop() > getBottom()
+        );
     }
 
     @Override

@@ -23,6 +23,7 @@ public class Ship extends Sprite {
     protected int hp;
     protected float reloadTimer;
     protected float reloadInterval;
+    protected float damageAnimateTimer;
 
     public Ship() {
     }
@@ -39,6 +40,18 @@ public class Ship extends Sprite {
             reloadTimer = 0f;
             shoot();
         }
+    }
+    public void damage(int damage) {
+        hp -= damage;
+        if (hp <= 0) {
+            hp = 0;
+            destroy();
+        }
+        damageAnimateTimer = 0f;
+        frame = 1;
+    }
+    public int getHp() {
+        return hp;
     }
 
     private void shoot() {
