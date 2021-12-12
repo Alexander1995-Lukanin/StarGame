@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import ru.gb.math.Rect;
 import ru.gb.sprite.Sprite;
 
-
 public class Bullet extends Sprite {
+
     private final Vector2 v = new Vector2();
 
     private Rect worldBounds;

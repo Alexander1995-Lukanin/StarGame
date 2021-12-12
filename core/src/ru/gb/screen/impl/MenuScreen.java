@@ -10,6 +10,7 @@ import ru.gb.screen.BaseScreen;
 import ru.gb.sprite.impl.Background;
 import ru.gb.sprite.impl.ButtonExit;
 import ru.gb.sprite.impl.ButtonPlay;
+import ru.gb.sprite.impl.MainShip;
 import ru.gb.sprite.impl.Star;
 
 public class MenuScreen extends BaseScreen {
@@ -47,7 +48,6 @@ public class MenuScreen extends BaseScreen {
         buttonPlay = new ButtonPlay(atlas, game);
     }
 
-
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
@@ -57,6 +57,7 @@ public class MenuScreen extends BaseScreen {
         }
         buttonExit.resize(worldBounds);
         buttonPlay.resize(worldBounds);
+
     }
 
     @Override
@@ -71,7 +72,6 @@ public class MenuScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
-
     }
 
     @Override
@@ -96,9 +96,12 @@ public class MenuScreen extends BaseScreen {
 
     private void draw() {
         batch.begin();
+//        batch.setColor(1f, 1f, 1f, 1f);
         background.draw(batch);
         for (Star star : stars) {
+//            batch.setColor(Color.YELLOW);
             star.draw(batch);
+//            batch.setColor(Color.CLEAR);
         }
         buttonExit.draw(batch);
         buttonPlay.draw(batch);

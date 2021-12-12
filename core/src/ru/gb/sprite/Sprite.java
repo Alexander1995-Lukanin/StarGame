@@ -92,7 +92,4 @@ public class Sprite extends Rect {
     public boolean isDestroyed() {
         return destroyed;
     }
-
-    public void draw(float batch) {
-    }
 }

@@ -6,11 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.gb.math.Rect;
 import ru.gb.pool.impl.BulletPool;
+import ru.gb.pool.impl.ExplosionPool;
 import ru.gb.sprite.Ship;
 
 public class EnemyShip extends Ship {
 
-    public EnemyShip(BulletPool bulletPool, Sound bulletSound, Rect worldBounds) {
+    public EnemyShip(ExplosionPool explosionPool, BulletPool bulletPool, Sound bulletSound, Rect worldBounds) {
+        this.explosionPool = explosionPool;
         this.bulletPool = bulletPool;
         this.bulletSound = bulletSound;
         this.worldBounds = worldBounds;
@@ -21,11 +23,10 @@ public class EnemyShip extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (getTop()>worldBounds.getTop()){
-            v.set(0,-0.3f);
-            reloadTimer = reloadInterval*0.8f;
-        }
-        else{
+        if (getTop() > worldBounds.getTop()) {
+            v.set(0, -0.3f);
+            reloadTimer = reloadInterval * 0.8f;
+        } else {
             v.set(v0);
         }
         if (getBottom() < worldBounds.getBottom()) {
@@ -54,6 +55,7 @@ public class EnemyShip extends Ship {
         setHeightProportion(height);
         this.hp = hp;
     }
+
     public boolean isBulletCollision(Bullet bullet) {
         return !(bullet.getRight() < getLeft()
                 || bullet.getLeft() > getRight()
